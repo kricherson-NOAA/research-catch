@@ -109,8 +109,8 @@ simpleCap <- function(x) {
 #Who is using the old spreadsheet? Figure out who had blue/deacon catch AND old groupings (no "Blue/deacon/black rockfish (Oregon)" grouping present in groundfish sheet). I *think* other differences between old and new spreadsheets don't impact the output, e.g. there is no cowcod south that would need to be split into Conception and Monterey.  
 gfish_check <- bind_rows(gfish_list , .id = "survey_label") %>% #this lets us look up which survey an entry came from if need to track down oddities
   clean_names() %>% #the names parsed by read_xls are annoying to work with 
-  select(-x7, -x8) %>% #these are empty columns
-  rename(grouping = x1, species = x2, catch_mt = x3, depth_captured = only_if_requesting_survival_credit, released_at_depth = x5, notes = x6) %>% 
+  select(-x_7) %>% #these are empty columns
+  rename(grouping = x_1, species = x_2, catch_mt = x_3, depth_captured = only_if_requesting_survival_credit, released_at_depth = x_5, notes = x_6) %>% 
   group_by(survey_label) %>% 
   mutate(catch_mt = as.numeric(catch_mt)) %>% 
   mutate(total_bd = sum(catch_mt[species %in% c("Blue/Deacon Rockfish", "Black Rockfish")], na.rm=T)) %>% 
@@ -127,8 +127,8 @@ xls_file_names[as.numeric(unique(gfish_check$survey_label))]
 #Make all groundfish sheets into one DF, fix nonstandard entries, do yelloweye, canary, and cowcod mortality estimates where appropriate. Do in 2 chunks because of pasting limits in Tantalus.   
 gfish1 <- bind_rows(gfish_list , .id = "survey_label") %>% #this lets us look up which survey an entry came from if need to track down oddities
   clean_names() %>% #the names parsed by read_xls are annoying to work with 
-  select(-x7, -x8) %>% #these are empty columns
-  rename(grouping = x1, species = x2, catch_mt = x3, depth_captured = only_if_requesting_survival_credit, released_at_depth = x5, notes = x6) %>% 
+  select(-x_7) %>% #these are empty columns
+  rename(grouping = x_1, species = x_2, catch_mt = x_3, depth_captured = only_if_requesting_survival_credit, released_at_depth = x_5, notes = x_6) %>% 
   filter(!(is.na(grouping) & is.na(species))) %>% 
   filter(grouping != "Grouping") %>% #Because column headings were read in as entries -- remove them
   filter(catch_mt > 0 & !is.na(catch_mt)) %>% #Only want entries with catches
@@ -194,8 +194,8 @@ filter(gfish, species %in%c("Canary Rockfish", "Cowcod Rockfish", "Yelloweye Roc
 #Make sure that there are no species - grouping combos in the data that are NOT in our master 2019 spreadsheet. 
 gfish_master <- read_xlsx("~/observer/Input/Richerson/Research mortality/2019/Research Mortality Data Entry Spreadsheet 2019 Data.xlsm", sheet = "Groundfish") %>% 
   clean_names() %>% 
-  select(x1, x2) %>% 
-  rename(grouping = x1, species = x2) %>% 
+  select(x_1, x_2) %>% 
+  rename(grouping = x_1, species = x_2) %>% 
   filter(!(is.na(grouping) & is.na(species))) %>% 
   filter(grouping != "Grouping")
 
@@ -260,7 +260,7 @@ other$species[grepl("Salmon", other$species)]
 
 ecs <- read_xlsx( "~/observer/Input/Richerson/Research mortality/2019/ECS and Shared ECS 2017-08-09.xlsx") %>% 
   clean_names() %>% 
-  select(-x3) %>% 
+  select(-x_1) %>% 
   distinct()#there's a repeated row, remove
 
 #Double check some of the ECS and shared ECS species that might not exactly match the names from the spreadsheet 
@@ -474,7 +474,7 @@ gfish_other_check <- gfish_other %>%
 
 #Make sure that the top species look right in terms of weight -- no wierd giant mortalities
 top_n(ungroup(gfish_other), n = 20, wt = total_mort_mt) %>% arrange(desc(total_mort_mt)) %>% as.data.frame()
-#Seems ok as far as I know???
+#Seems ok???
 
 #output gfish/other
 write_csv(gfish_other, paste0(out_drive, "groundfish_other_sp_res_mort_", tday, ".csv"))
