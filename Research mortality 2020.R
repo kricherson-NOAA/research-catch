@@ -13,14 +13,14 @@ library(stringr)
 
 #Read in data
 
-in_drive <- "X:/Input/Richerson/Research mortality/2020/original spreadsheets/"
+in_drive <- "V:/Input/Richerson/Research mortality/2020/original spreadsheets/"
 
-out_drive <- "X:/Output/Richerson other/Research mortality/2020/"
+out_drive <- "V:/Output/Richerson other/Research mortality/2020/"
 
 tday <-gsub("-", "", Sys.Date())
 
 #To check that groundfish species and groupings are all correct, import the 2020 template
-gfish_template <- read_xlsx(paste0("X:/Input/Richerson/Research mortality/2020/Research Mortality Data Entry Spreadsheet 2020 Data.xlsm"), sheet="Groundfish") %>% 
+gfish_template <- read_xlsx(paste0("V:/Input/Richerson/Research mortality/2020/Research Mortality Data Entry Spreadsheet 2020 Data.xlsm"), sheet="Groundfish") %>% 
   rename(grouping = `...1`, 
          species = `...2`, 
          spatial = `...3`, 
