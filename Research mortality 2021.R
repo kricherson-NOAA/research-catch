@@ -27,5 +27,5 @@ setdiff(permits_2, permits_1)
 #"LOA-01-2021" "LOA-14-2021" "SRP-11-2021"
 
 #LOA-01 = "IPHC Fishery-independent Setline Survey" - Kayla Ualesi
-# "WDFW Nearshore Rockfish Rod and Reel Survey" - Robert Davis
+#LOA-14-2021 = "WDFW Nearshore Rockfish Rod and Reel Survey" - Robert Davis
 #"" ken.massee
